@@ -116,15 +116,15 @@
 - name: Set ceph dashboard config
   shell: |
     echo "{{ dashboard_password }}" > /tmp/passwd.txt
-    cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard feature enable rbd
-    cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard feature status
+    cephadm shell -- ceph dashboard feature enable rbd
+    cephadm shell -- ceph dashboard feature status
     cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard set-grafana-api-password -i /var/run/password.txt
-    cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard set-grafana-api-url "{{ grafana_api_url }}"
-    cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard set-alertmanager-api-host "{{ alertmanager_api_host }}"
-    cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard set-prometheus-api-host "{{ prometheus_api_host }}"
-    cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard set-grafana-api-ssl-verify false
-    cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard set-prometheus-api-ssl-verify false
-    cephadm shell -m /tmp/passwd.txt:/var/run/password.txt -- ceph dashboard set-alertmanager-api-ssl-verify false
+    cephadm shell  -- ceph dashboard set-grafana-api-url "{{ grafana_api_url }}"
+    cephadm shell  -- ceph dashboard set-alertmanager-api-host "{{ alertmanager_api_host }}"
+    cephadm shell  -- ceph dashboard set-prometheus-api-host "{{ prometheus_api_host }}"
+    cephadm shell  -- ceph dashboard set-grafana-api-ssl-verify false
+    cephadm shell  -- ceph dashboard set-prometheus-api-ssl-verify false
+    cephadm shell  -- ceph dashboard set-alertmanager-api-ssl-verify false
 
 - name: Apply cluster spec
   tags: add_host
