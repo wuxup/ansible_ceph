@@ -1,2 +1,2 @@
 # ansible_ceph
-使用ansible-playble借助cephadm部署ceph集群
+使用ansible-playbook借助cephadm部署ceph集群
