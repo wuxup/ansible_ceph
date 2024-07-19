@@ -1,0 +1,17 @@
+{% if enable_ceph_iscsi | bool %}
+---
+service_type: iscsi
+service_id: iscsi
+placement:
+  hosts:
+{% for host in groups['ceph-iscsi'] %}
+  - {{ host }}
+{% endfor %}
+spec:
+ pool: iscsi_pool
+ api_secure: false
+ api_port: 3266
+ api_user: admin
+ api_password: {{ dashboard_password }}
+ trusted_ip_list: {% set ip_list=[] %}{% for host in groups['control'] %}{{ ip_list.append(hostvars[host]['ansible_'+api_interface_name].ipv4.address) }}{% endfor %}{{ ip_list|join(",") }}
+{% endif %}

@@ -1,0 +1,34 @@
+---
+cephadm_ceph_osd_devices: [vm001:/dev/vdb,vm001:/dev/vdb]
+failure_domain_type: "osd"
+
+cephadm_ceph_pools:
+  backups: "8"
+  images: "8"
+  vms: "8"
+  volumes: "8"
+
+cephadm_ceph_users:
+  - client.glance mon 'profile rbd' osd 'profile rbd pool=images' mgr 'profile rbd pool=images' -o /var/run/ceph/ceph.client.glance.keyring
+  - client.cinder mon 'profile rbd' osd 'profile rbd pool=volumes, profile rbd pool=vms, profile rbd pool=images' mgr 'profile rbd pool=volumes, profile rbd pool=vms' -o /var/run/ceph/ceph.client.cinder.keyring
+  - client.cinder-backup mon 'profile rbd' osd 'profile rbd pool=backups' mgr 'profile rbd pool=backups' -o /var/run/ceph/ceph.client.cinder-backup.keyring
+
+new_image: "DEFAULT_IMAGE = 'xxx.xxx.xxx.xxx:xxx\\/ceph\\/ceph:v16.2.10.1'"
+cephadm_location: "/mnt/kvirtdesk-offline/python-venv/roles/cephadm/templates/cephadm"
+cluster_network: "xxx.xxx.xxx.xxx/24"
+registry: "xxx.xxx.xxx.xxx"
+registry_username: "xxxxxx"
+registry_password: "xxxxx"
+dashboard_user: "xxxxx"
+dashboard_pass: "xxxxx"
+api_interface_name: "ens1"
+device_class: "lsd"
+srcdev_class: "ssd"
+grafana_api_url: "http://xxx.xxx.xxx.xxx"
+alertmanager_api_host: "http://xxx.xxx.xxx.xxx:9093"
+prometheus_api_host: "http://xxx.xxx.xxx.xxx:9091"
+ssh_user: "xxxxxx"
+max_size: "3"
+min_size: "1"
+dashboard_password: "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+init_conf: "/mnt/kvirtdesk-offline/python-venv/roles/cephadm/templates/initial-ceph.conf"

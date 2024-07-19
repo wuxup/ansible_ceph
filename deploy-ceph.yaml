@@ -1,0 +1,40 @@
+---
+- name: Get fact
+  hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: Ping all nodes
+    ping:
+
+- name: Install cephadm
+  hosts: localhost
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: Modify default image url
+    shell: sed -i "s/^DEFAULT_IMAGE =.*$/{{ new_image }}/" {{ cephadm_location }}
+
+- name: Copy cephadm to mon node
+  hosts: ceph-mon
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: Copy cephadm
+    tags: copy_cephadm
+    copy:
+      src: "{{ cephadm_location }}"
+      dest: "/usr/sbin/"
+      mode: "0755"
+    become: True
+
+- name: Deploy ceph
+  hosts: deployment
+  become: yes
+  become_user: root
+  become_method: sudo
+  roles:
+    - cephadm
